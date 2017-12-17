@@ -1,0 +1,10 @@
+<div class="keyboard" (touchend)="onTouchEnd($event)" (mouseup)="onMouseUp($event)" (mouseleave)="onMouseUp($event)">
+  <div *ngFor="let grp of keyGrp" class="key-group" (touchmove)="onTouchMove($event)">
+    <div class="white-keys form-inline">
+      <div *ngFor="let wkey of keySet.white" class="key-w" [attr.grp]="grp" [attr.tone]="wkey" (touchstart)="onTouchStart($event)" (mousedown)="onMouseDown($event)">{{wkey}}<sub>{{grp}}</sub></div>
+    </div>
+    <div class="black-keys form-inline">
+      <div *ngFor="let bkey of keySet.black" class="key-b" [attr.grp]="grp" [attr.tone]="bkey" (touchstart)="onTouchStart($event)" (mousedown)="onMouseDown($event)">{{bkey}}<sub>{{grp}}</sub></div>
+    </div>
+  </div>
+</div>

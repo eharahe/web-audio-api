@@ -1,0 +1,49 @@
+.vol-outer{
+  position: relative;
+}
+.vol-panel{
+  margin: 0 3px 0 10px;
+}
+.vol-panel[vertical="true"]{
+  transform-origin: bottom right;
+  transform:rotate(-90deg);
+  position: absolute;
+  right:0;
+}
+.channel{
+  display: -webkit-box;
+}
+.meter-led{
+  width: 7px;
+  height: 7px;
+  border: 0.5px solid;
+  border-radius: 4px;
+  margin:1px;
+}
+.meter-led[color="green"]{
+  background: #036203;
+  border-color: #011b00;
+}
+.meter-led.on[color="green"]{
+  background: #00e401;
+  border-color: #06ab00;
+  box-shadow: 0 0 2px rgba(0, 228, 1, 0.8);
+}
+.meter-led[color="yellow"]{
+  background: #737311;
+  border-color: #302f00;
+}
+.meter-led.on[color="yellow"]{
+  background: #ffd400;
+  border-color: #abab76;
+  box-shadow: 0 0 2px rgba(241, 241, 0, 0.8);
+}
+.meter-led[color="red"]{
+  background: #6b2525;
+  border-color: #450203;
+}
+.meter-led.on[color="red"]{
+  background: #fd0000;
+  border-color: #a90003;
+  box-shadow: 0 0 2px rgba(253, 0, 0, 0.8);
+}

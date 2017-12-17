@@ -1,0 +1,105 @@
+.adsr-dashboard, .lfo-dashboard, .sqc-dashboard{
+  background: #2d3341;
+  margin: 0 8px;
+  padding:2px 10px;
+  border-radius: 5px;
+  user-select: none;
+  cursor: default;
+  min-width: 660px;
+  min-height: 168px;
+  justify-content:center;
+}
+.knob-col{
+  min-width: 50px;
+}
+.lfo-knobs .knob-col{
+  min-width: 70px;
+}
+.lfo-dash-knob{
+  min-width: 70px;
+}
+.adsr-canvas, .lfo-canvas, .sqc-canvas{
+  background: #505a70;
+  padding: 5px 5px 0;
+  margin-left: 15px;
+  border-top:1px solid #232732;
+  border-left:1px solid #232732;
+  border-bottom:2px solid #8995af;
+}
+.sqc-canvas{
+  width: 360px;
+  /*height: 112px;*/
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding-bottom: 3px;
+  border: 1px solid #232732;
+}
+.adsr-canvas canvas, .lfo-canvas canvas{
+  display: block;
+}
+.sqc-blk-container{
+  height: 100%;
+  white-space: nowrap;
+}
+.sqc-canvas::-webkit-scrollbar
+{
+    height: 5px;
+}
+.sqc-canvas::-webkit-scrollbar-track
+{
+    background-color: #373d4c;
+}
+.sqc-canvas::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+    background-color: #6c778e;
+}
+.sqc-blk{
+  width: initial;
+  width: 18px;
+  margin: 0 2px;
+  display: inline-block;
+  text-align: center;
+}
+.sqc-blk-index{
+  font-size: 10px;
+  height: 12px;
+  line-height: 12px;
+  vertical-align: top;
+  color:#a1b1ca;
+}
+.sqc-blk-btn{
+  width: 100%;
+  height: 72px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGsAAAGwAgMAAADTX3PHAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJUExURS0zQf+lAFBacDkN9x8AAABaSURBVGje7dGxDQAwCMAwjiw/Vr2SC2DohuSsGR2v7cb0su14H29L/Ljz486Wu8fd4+5x97hz586dO3fu3Llz586dO3fu3Llz586dO3fu3Llz586dO3d+S90L1kg5L+RNXvAAAAAASUVORK5CYII=);
+  background-size: contain;
+}
+.sqc-blk-link{
+  font-size: 8px;
+  height: 12px;
+  line-height: 12px;
+  vertical-align: top;
+  color: #a1b1ca;
+  font-family: Arial;
+  font-weight: bold;
+  cursor: pointer;
+}
+.sqc-blk-link[link="true"]{
+  color: orange;
+}
+.sqc-mask{
+  width: 100%;
+  background: rgb(45, 51, 65);
+}
+.sqc-blk-num{
+  display: block;
+  font-size: 12px;
+  padding: 0px;
+  width: 20px;
+  height: 20px;
+  line-height: 16px;
+  margin: 0 0 5px 5px;
+  background:#505a70;
+  color: #eee;
+}

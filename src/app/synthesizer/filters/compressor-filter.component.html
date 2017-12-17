@@ -1,0 +1,16 @@
+<div class="knob-col">
+  <div class="knob-name">Threshold</div>
+  <knob-container [settings]="settings.threshold" (onKnobDrag)="onDrag()"></knob-container>
+  <div class="knob-name">Knee</div>
+  <knob-container [settings]="settings.knee" (onKnobDrag)="onDrag()"></knob-container>
+</div>
+<div class="knob-col">
+  <div class="knob-name">Attack</div>
+  <knob-container [settings]="settings.attack" (onKnobDrag)="onDrag()"></knob-container>
+  <div class="knob-name">Release</div>
+  <knob-container [settings]="settings.release" (onKnobDrag)="onDrag()"></knob-container>
+</div>
+<div class="knob-col">
+  <div class="knob-name">Ratio</div>
+  <knob-container [settings]="settings.ratio" (onKnobDrag)="onDrag()"></knob-container>
+</div>

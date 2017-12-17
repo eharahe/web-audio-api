@@ -1,0 +1,52 @@
+.keyboard{
+  width: max-content;
+  padding: 17px 6px 2px;
+  margin: 0 auto;
+}
+@media screen and (max-width:1024px){
+  .keyboard{
+    transform:scaleX(1.5);
+    transform-origin: 0 0;
+  }
+}
+.key-group{
+  position: relative;
+  user-select: none;
+  display: inline-block;
+  border-top: 3px solid rgba(0,0,0,.2);
+}
+.key-w{
+  width: 46px;
+  height: 200px;
+  border-radius: 0 0 7px 7px;
+  border: 1px solid #333;
+  background: #fafafa;
+  line-height: 360px;
+  font-size: 12px;
+  color: #666;
+}
+.key-w:active{
+  background: #ccc;
+}
+.key-b{
+  width: 33px;
+  height: 120px;
+  border-radius: 0 0 5px 5px;
+  background: #333;
+  position: absolute;
+  top: 0;
+  line-height: 200px;
+  font-size: 10px;
+  color: #ca6;
+}
+.key-w sub, .key-b sub{
+  color: #999;
+}
+.key-b[tone="Db"]{left: 24px;}
+.key-b[tone="Eb"]{left: 80px;}
+.key-b[tone="Gb"]{left: 161px;}
+.key-b[tone="Ab"]{left: 214px;}
+.key-b[tone="Bb"]{left: 267px;}
+.key-b:active{
+  background: #555;
+}

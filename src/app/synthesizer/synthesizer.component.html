@@ -1,0 +1,107 @@
+<div class="row synth-header">
+  <div class="synth-logo"><img src="assets/img/logo.png"></div>
+  <div class="synth-dedicate"><img src="assets/img/dedicate.png"></div>
+</div>
+<div class="row dashboard-row">
+  <div class="col lft-col">
+    <div class="synth-panel">
+      <ng-container *ngFor="let osc of oscs; let i=index">
+        <osc-container [name]="osc"></osc-container>
+        <div class="synth-hr" *ngIf="i<oscs.length-1"></div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="col rt-col">
+    <div class="row form-inline synth-panel">
+      <div class="filter-input-div">
+        <div class="filter-input-head"><b>➭F2</b></div>
+        <div class="filter-input-body">
+          <div class="filter-input-slider">
+            <div class="filter-slider-text sli-text1">Ser.</div>
+            <slider-container [settings]="filter.input" (onSliderDrag)="onFilterSerialSliderDrag()"></slider-container>
+            <div class="filter-slider-text sli-text2">Par.</div>
+          </div>
+        </div>
+      </div>
+      <div class="synth-vr"></div>
+      <ng-container *ngFor="let filter of filters; let i=index">
+        <div class="filters-div">
+          <filter-container [name]="filter"></filter-container>
+        </div>
+        <div *ngIf="i<filters.length-1" class="synth-vr"></div>
+      </ng-container>
+    </div>
+    <div class="row modulators synth-panel">
+      <div class="modulator-inner">
+        <div class="mod-head form-inline">
+          <div class="mod-head-name"><b>Modulators</b></div>
+          <div class="mod-tabs form-inline">
+            <div class="mod-tab" *ngFor="let adsr of adsrs" [attr.active]="adsr.display" (click)="modTabClick(adsr)">{{adsr.name}}</div>
+            <div class="mod-tab" *ngFor="let lfo of lfos" [attr.active]="lfo.display" (click)="modTabClick(lfo)">{{lfo.name}}</div>
+            <div class="mod-tab" *ngFor="let seq of sequencers" [attr.active]="seq.display" (click)="modTabClick(seq)">{{seq.name}}</div>
+          </div>
+        </div>
+        <div class="mod-body">
+          <adsr-container *ngFor="let adsr of adsrs" [name]="adsr.name" [style.display]="adsr.display?'':'none'"></adsr-container>
+          <lfo-container *ngFor="let lfo of lfos" [name]="lfo.name" [style.display]="lfo.display?'':'none'"></lfo-container>
+          <sqc-container *ngFor="let seq of sequencers" [name]="seq.name" [style.display]="seq.display?'':'none'"></sqc-container>
+        </div>
+      </div>
+    </div>
+    <div class="row form-inline synth-panel">
+      <div class="filter-input-div">
+        <div class="filter-input-head"><b>Delay FX</b></div>
+        <div class="filter-input-body">
+          <delay-container [name]="'Delay'"></delay-container>
+        </div>
+      </div>
+      <div class="synth-vr"></div>
+      <div class="filter-input-div">
+        <div class="filter-input-head"><b>Reverb FX</b></div>
+        <div class="filter-input-body">
+          <convolver-container [name]="'Reverb'"></convolver-container>
+        </div>
+      </div>
+      <div class="synth-vr"></div>
+      <div class="filter-input-div">
+        <div class="filter-input-head"><b>Settings</b></div>
+        <div class="filter-input-body">
+          <div class="knob-col">
+            <div class="knob-name">Polyphony</div>
+            <knob-container [settings]="polyphony" (onKnobDrag)="onPolyphonyChange()"></knob-container>
+            <div class="knob-name">Cessation</div>
+            <button class="cessation-btn" (click)="onCessationClick()">Stop All</button>
+          </div>
+          <div class="knob-col">
+            <div class="knob-name">Pan</div>
+            <knob-container [settings]="pan" (onKnobDrag)="onPanDrag()"></knob-container>
+            <div class="knob-name">Keyboard</div>
+            <select class="mode-input" (change)="onModeChange($event)" value="{{keyMode.value}}">
+              <option *ngFor="let m of keyMode.modes" value="{{m.k}}">{{m.s}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="synth-vr"></div>
+      <div class="filter-input-div master-div">
+        <div class="filter-input-head"><b>Master</b></div>
+        <div class="filter-input-body">
+          <div class="master-3">
+            <div class="knob-col">
+              <div class="knob-name">Master</div>
+              <knob-container [settings]="master" (onKnobDrag)="onMasterDrag()"></knob-container>
+            </div>
+          </div>
+          <div class="knob-col">
+            <volume-meter-container [settings]="masterVolMeter" [channels]="masterVolMeter.channels"></volume-meter-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row keyboard-row">
+  <div class="synth-panel keyboard-panel">
+    <keyboard-container></keyboard-container>
+  </div>
+</div>

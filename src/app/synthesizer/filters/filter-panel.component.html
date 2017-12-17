@@ -1,0 +1,20 @@
+<div class="filter">
+  <div class="filter-head form-inline">
+    <div class="filter-name"><b>{{name}}</b></div>
+    <div class="filter-type">
+      <select [(ngModel)]="type" (change)="onTypeChange($event)" >
+        <option *ngFor="let tp of types" value="{{tp.id}}">{{tp.name}}</option>
+      </select>
+    </div>
+    <volume-meter-container [settings]="volMeter" [channels]="volMeter.channels"></volume-meter-container>
+  </div>
+  <div class="filter-body">
+    <div class="filter-div">
+      <ng-template filter-host></ng-template>
+    </div>
+    <div class="post-slider">
+      <div class="post-slider-text">Post</div>
+      <slider-container [settings]="mix" (onSliderDrag)="onMixDrag()"></slider-container>
+    </div>
+  </div>
+</div>

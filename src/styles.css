@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+.synth-panel select{
+  appearance:none;
+  -moz-appearance:none; /*ff*/
+  -webkit-appearance:none; /*chrome*/
+  
+  padding: 0 15px 0 5px;
+  color:#333;
+  font-size: 12px;
+  height: 20px;
+  border: solid 1px #2d3341;
+  cursor: pointer;
+  background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNCIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMTAwIDYwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KIDxwYXRoIGQ9Im00IDQgTDUwIDU2IEw5NiA0IiBzdHJva2U9IiMyZDMzNDEiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0idHJhbnNwYXJlbnQiLz4NCjwvc3ZnPg==) no-repeat right #d5dee8;
+}
+.knob-col{
+  display: inline-block;
+  padding: 0 2px;
+  min-width: 60px;
+  vertical-align: top;
+}
+.knob-name{
+  color: #a1b1ca;
+  font-size: 12px;
+  height: 21px;
+}

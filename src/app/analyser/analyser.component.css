@@ -1,0 +1,163 @@
+.waveform{
+  background: #2d3341;
+}
+.waveform-col, .frequency-col, .stereo-col, .spectrogram-col{
+  padding: 0;
+}
+.stereo-col, .spectrogram-col{
+  max-width: 490px;
+}
+.stereo-col{
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.frequency, .spectrogram{
+  background: #2d3341;
+}
+.spectrogram{
+  justify-content: center;
+  padding-bottom: 50px;
+  align-items: stretch;
+}
+.frequency-col{
+  padding: 10px 0 25px;
+}
+.frequency-canvas, .spec-canvas{
+  background: #59606d;
+  border-radius: 2px;
+  border-top: 2px solid #a1aebd;
+  border-left: 1px solid #97a1ad;
+  border-bottom: 2px solid #eef2fa;
+  border-right: 1px solid #eef2fa;
+  width: 100%;
+  display:block;
+}
+.spec-canvas{
+  background: hsl(212, 40%, 0%);
+}
+.diagram-title{
+  margin: .3rem 0;
+  padding: .2rem 1rem;
+  color: #aaa;
+}
+.audio-source-svg{
+  padding: 15px 0 10px;
+  background: rgba(255,255,255,.1)
+}
+.audio-input-label{
+  margin: .5rem 40px .5rem 0;
+  padding: .2rem 1rem;
+  color: #aaa;
+  cursor: pointer;
+  background: rgba(255,255,255,.1);
+  border-radius: 4px;
+}
+.audio-input-label:hover{ 
+  color: #bccfec;
+}
+.audio-input-label:active{
+  color: #bccfec;
+}
+#audio-input{
+  display: none;
+}
+.waveform-container, .frequency-col{
+  position: relative;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+.waveform-canvas{
+  background: #242832;
+  border-radius: 5px;
+  border-top: 2px solid #222;
+  border-left: 1px solid #222;
+  border-bottom: 2px solid #515a6e;
+  border-right: 1px solid #515a6e;
+  width: 100%;
+}
+.waveform-info, .waveform-ts, .frequency-ts{
+  color: #fff;
+  text-shadow: 1px 1px 0px #000;
+  font-size: 12px;
+  position: absolute;
+  left: 15px;
+  top: 5px;
+  z-index: 999;
+}
+.waveform-ts{
+  right: 15px;
+  left: auto;
+}
+.frequency-ts{
+  color: #03A9F4;
+  text-shadow: none;
+  top: 20px;
+  right: 15px;
+  left: auto;
+  font-family: consolas;
+}
+.waveform-ind{
+  position: absolute;
+  top: 1%;
+  height: 93%;
+  width: 1px;
+  background: rgb(119, 141, 181);
+  box-shadow: 0px 0px 1px #a79465;
+  z-index: 9;
+}
+.svg{
+  max-width: 980px;
+  width: 100%;
+}
+.svg-hide{
+  background: #59606d;
+  height: 10px;
+}
+.svg-hide-btn{
+  width: 40px;
+  height: 100%;
+  margin: 0 auto;
+  cursor: pointer;
+  padding: 2px 0 2px;
+}
+.dash{
+  width: 40px;
+  height: 2px;
+  border-radius: 2px;
+  background: #424854;
+  margin: 1px 0;
+}
+.svg-hide-btn:hover .dash{
+  background: #5f86ae;
+}
+.pause{
+  transform-origin: 50% 53%;
+  transform: rotate(90deg);
+}
+.play-controls button{
+  margin: 5px 8px 10px;
+  color: #3a4050;
+  width: 30px;
+}
+.play-controls button[disabled]{
+  color:#c8c8c8;
+}
+.ghost{
+  display: none;
+}
+.filter-panel{
+  background: #59606d;
+  border-radius: 2px;
+  border-top: 2px solid #a1aebd;
+  border-left: 1px solid #97a1ad;
+  border-bottom: 2px solid #eef2fa;
+  border-right: 1px solid #eef2fa;
+  width: 100%;
+  padding: 35px 0 0;
+  flex: 1;
+}
+.filter-panel select{
+  margin-bottom: 20px; 
+}

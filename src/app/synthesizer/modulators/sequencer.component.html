@@ -1,0 +1,37 @@
+<div class="sqc-dashboard form-inline">
+  <div class="sqc-knobs">  
+    <div class="knob-col">
+      <div class="knob-name">Freq</div>
+      <knob-container [settings]="freqSetting" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Attack</div>
+      <knob-container [settings]="attackSetting" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Sustain</div>
+      <knob-container [settings]="sustainSetting" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Release</div>
+      <knob-container [settings]="releaseSetting" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+  </div>
+  <div class="sqc-canvas">
+    <div class="sqc-blk-container">
+      <div class="sqc-blk" *ngFor="let sqc of sqcArr; let i=index" [style.display]="i<seqNum?'':'none'">
+        <div class="sqc-blk-index">{{i+1}}</div>
+        <div class="{{name}}-blk sqc-blk-btn" [attr.index]="i">
+          <div class="sqc-mask" [style.height]="100-sqc.val+'%'"></div>
+        </div>
+        <div class="sqc-blk-link" [attr.link]="sqc.link" (click)="onLinkFlip(i)">(─)</div>
+      </div>
+    </div>
+    <canvas width="{{canvasW}}" height="{{canvasH}}" class="{{name}}-canvas"></canvas>
+  </div>
+  <div class="knob-col">
+    <button class="sqc-blk-num" (click)="seqNumChange('more')">+</button>
+    <button class="sqc-blk-num" (click)="seqNumChange('less')">-</button>
+  </div>
+  
+</div>

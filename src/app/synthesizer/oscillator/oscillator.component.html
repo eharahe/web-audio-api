@@ -1,0 +1,57 @@
+<div class="osc">
+  <div class="form-inline osc-head">
+    <button class="osc-power btn" [attr.status]="oscillator.on" (click)="powerOnClick()"></button>
+    <div class="osc-name"><b>{{name}}</b></div>
+    <div class="osc-type">
+      <select [(ngModel)]="oscillator.type">
+        <optgroup label="Simple Osc">
+          <option value="sine">Sin</option>
+          <option value="square">Squ</option>
+          <option value="sawtooth">Saw</option>
+          <option value="triangle">Tri</option>
+        </optgroup>
+        <optgroup label="User Osc">
+          <option *ngFor="let type of oscillator.customTypes" [attr.value]="type.name">{{type.str}}</option>
+        </optgroup>
+      </select>
+    </div>
+    <volume-meter-container [settings]="oscillator.volMeter" [channels]="oscillator.volMeter.channels"></volume-meter-container>
+  </div> 
+  <div class="osc-body">
+    <div class="osc-dashboard">
+      <div class="knob-col">
+        <div class="knob-name">Voices</div>
+        <knob-container [settings]="oscillator.voicing.num" (onKnobDrag)="onVoiceNumDrag()"></knob-container>
+        <div class="knob-name">Detune</div>
+        <knob-container [settings]="oscillator.voicing.detune" (onKnobDrag)="onVoiceDetuneDrag()"></knob-container>
+      </div>
+      <div class="knob-col">
+        <div class="knob-name">Width</div>
+        <knob-container [settings]="oscillator.voicing.pan" (onKnobDrag)="onVoicePanDrag()"></knob-container>
+        <div class="knob-name">Seed</div>
+        <knob-container [settings]="oscillator.voicing.seed" (onKnobDrag)="onVoiceSeedDrag()"></knob-container>
+      </div>
+      <div class="knob-col">
+        <div class="knob-name">Tune Coarse</div>
+        <modable-knob-container [settings]="oscillator.tune.coarse" (onKnobDrag)="onTuneCoarseDrag()"></modable-knob-container>
+      </div>
+      <div class="knob-col">
+        <div class="knob-name">Tune Fine</div>
+        <modable-knob-container [settings]="oscillator.tune.fine" (onKnobDrag)="onTuneFineDrag()"></modable-knob-container>
+      </div>
+      <div class="knob-col">
+        <div class="knob-name">Pan</div>
+        <modable-knob-container [settings]="oscillator.pan" (onKnobDrag)="onPanDrag()"></modable-knob-container>
+      </div>
+      <div class="knob-col">
+        <div class="knob-name">Amp</div>
+        <modable-knob-container [settings]="oscillator.vol" (onKnobDrag)="onAmpDrag()" (onModChange)="onAmpDrag()"></modable-knob-container>
+      </div>
+      <div class="osc-mix-slider">
+        <div class="osc-slider-text sli-text1">F1</div>
+        <slider-container [settings]="oscillator.mix" (onSliderDrag)="onMixDrag()"></slider-container>
+        <div class="osc-slider-text sli-text2">F2</div>
+      </div>
+    </div>
+  </div>
+</div>

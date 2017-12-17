@@ -1,0 +1,16 @@
+<div class="filter-row">
+  <div class="filter-knob-h">
+    <div class="knob-name">Dry/Wet</div>
+    <knob-container [settings]="settings.mix" (onKnobDrag)="onDrag()"></knob-container>
+  </div>
+  <div class="filter-knob-h">
+    <div class="knob-name">Color</div>
+    <knob-container [settings]="settings.damp" (onKnobDrag)="onDrag()"></knob-container>
+  </div>
+</div>
+<div class="filter-row">
+  <div class="knob-name">Impulse</div>
+  <select class="impulse-type-input" (change)="onTypeChange($event)" value="{{settings.type}}">
+    <option *ngFor="let type of impulseTypes" value="{{type.k}}">{{type.s}}</option>
+  </select>
+</div>

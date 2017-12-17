@@ -1,0 +1,66 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+.modg{
+  line-height: 1;
+  user-select: none;
+  cursor: default;
+  min-width: 78px;
+}
+.mod-group{
+  margin: 0 0 3px;
+  flex: 1;
+  text-align: left;
+}
+.mod-group select{
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  color: #a1b1ca;
+  background: #1f2430;
+  font-size: 10px;
+  padding: 0 3px;
+  height: 14px;
+  line-height: 12px;
+  border-radius: 2px;
+  text-align: center;
+  cursor: pointer;
+  margin-right: -8px;
+  width: inherit;
+  display: inline-block;
+}
+.mod-group button{
+  font-size: 10px;
+  padding: 0;
+  width: 32px;
+  height: 14px;
+  border-radius: 8px;
+  border: 2px solid #64708b;
+  background: orange;
+  color: orange;
+  text-align: right;
+  box-shadow: none;
+}
+.mod-group button.modg2-slider{
+  background: #add8e6;
+}
+.knob-val{ 
+  font-size: 10px;
+  margin-bottom: 7px;
+  color: #eee;
+}
+.knob-val sub{
+  color: #a1b1ca;
+  width: 22px;
+}
+svg{
+  margin-bottom: -10px;
+}
+.mod-val{
+  vertical-align: top;
+  margin: 0 4px 0;
+  font-size: 8px;
+  color:#2d3341;
+}

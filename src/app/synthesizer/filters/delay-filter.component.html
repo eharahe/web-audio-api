@@ -1,0 +1,12 @@
+<div class="knob-col">
+  <div class="knob-name">Dry/Wet</div>
+  <knob-container [settings]="settings.mix" (onKnobDrag)="onDrag()"></knob-container>
+  <div class="knob-name">Left Time</div>
+  <knob-container [settings]="settings.left" (onKnobDrag)="onDrag()"></knob-container>
+</div>
+<div class="knob-col">
+  <div class="knob-name">Damp</div>
+  <knob-container [settings]="settings.damp" (onKnobDrag)="onDrag()"></knob-container>
+  <div class="knob-name">Right Time</div>
+  <knob-container [settings]="settings.right" (onKnobDrag)="onDrag()"></knob-container>
+</div>

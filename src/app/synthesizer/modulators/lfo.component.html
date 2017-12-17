@@ -1,0 +1,21 @@
+<div class="lfo-dashboard form-inline">
+  <div class="lfo-knobs">  
+    <div class="knob-col">
+      <div class="knob-name">Wave</div>
+      <select class="lfo-type-input" (change)="onTypeChange($event)" value="{{type}}">
+        <option *ngFor="let type of lfoTypes" value="{{type.k}}">{{type.s}}</option>
+      </select>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Freq</div>
+      <knob-container [settings]="freqSetting" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Delay</div>
+      <knob-container [settings]="delaySetting" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+  </div>
+  <div class="lfo-canvas">
+    <canvas width="{{canvasW}}" height="{{canvasH}}" class="{{name}}-canvas"></canvas>
+  </div>
+</div>

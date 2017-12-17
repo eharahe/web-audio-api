@@ -1,0 +1,25 @@
+<div [attr.id]="settings.id">
+  <svg [attr.width]="settings.size" [attr.height]="settings.size" version="1.1" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
+    <g class="knob-btn">
+      <circle cx="38" cy="38" r="32" [attr.fill]="settings.color.fill" [attr.stroke]="settings.color.stroke" stroke-width="3"/>
+      <g transform="rotate(-150, 38 38)">          
+        <rect x="36" y="7" width="4" height="30" fill="#fff"/>
+        <path d="m36 4.565 q2-0.12 4 0 v3 q-2-0.11 -4 0 z" [attr.fill]="settings.color.fill"/>
+      </g>
+    </g>
+    <g fill="#fff" stroke="#000" stroke-opacity=".2" stroke-width=".1">
+      <circle cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(-30, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(30, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(-60, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(60, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(-90, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(90, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(-120, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(120, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(-150, 38 38)" cx="38" cy="2.2" r="2"/>
+      <circle transform="rotate(150, 38 38)" cx="38" cy="2.2" r="2"/>
+    </g>
+  </svg>
+  <div class="knob-val">{{settings.value}}<sub>{{settings.unit}}</sub></div>
+</div>

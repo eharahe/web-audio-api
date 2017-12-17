@@ -1,0 +1,53 @@
+.osc-head{
+  height: 25px;
+  user-select: none;
+  cursor: default;
+}
+.osc-type{
+  line-height: 17px;
+} 
+.osc-head div, .osc-head button{
+  margin: 0 3px 0 10px;
+}
+.osc-head .osc-power{
+  margin-top: 1px;
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  cursor: pointer;
+  background: #65707a;
+  border: 1px solid #48505a;
+  box-shadow:none;
+}
+.osc-head .osc-power[status='true']{
+  background: orange;
+  box-shadow: 0 0 4px 1px #ffa500;
+}
+.osc-dashboard{
+  background: #2d3341;
+  margin: 0 8px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  user-select: none;
+  cursor: default;
+  min-width: 540px;
+  height: 168px;
+}
+.osc-mix-slider{
+  display: inline-block;
+  padding: 0 2px;
+  min-width: 40px;
+  vertical-align: top;
+  background: rgba(255,255,255,.1);
+}
+.osc-slider-text{
+  font-size: 12px;
+  color:#a1b1ca;
+}
+.sli-text1{
+  margin-bottom: -3px;
+}
+.sli-text2{
+  margin-top: -10px;
+}

@@ -1,0 +1,7 @@
+<div class="llk-block row">
+  <div class="llk-head"></div>
+  <div class="llk-body">
+    <div *ngFor="let img of matrix" [attr.active]="img.active" class="llk-img" [style.top]="50*(img.y+1)+'px'" [style.left]="50*(img.x+1)+'px'" (click)="imgClick(img.x,img.y,$event)"><div class="img-con"><div class="img-mask"></div><img src="assets/img/llk/{{img.type}}.jpg"></div></div>
+    <canvas class="canvas" width="800" height="600"></canvas>
+  </div>
+</div>

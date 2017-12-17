@@ -1,0 +1,41 @@
+<div class="adsr-dashboard form-inline">
+  <div class="adsr-knobs">
+    <div class="knob-col">
+      <div class="knob-name">Attack</div>
+      <knob-container [settings]="param.attack" (onKnobDrag)="onDrag()"></knob-container>
+      <div class="knob-name">curve</div>
+      <knob-container [settings]="param.attCurve" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Hold</div>
+      <knob-container [settings]="param.hold" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Decay</div>
+      <knob-container [settings]="param.decay" (onKnobDrag)="onDrag()"></knob-container>
+      <div class="knob-name">curve</div>
+      <knob-container [settings]="param.decCurve" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Sustain</div>
+      <knob-container [settings]="param.sustain" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+    <div class="knob-col">
+      <div class="knob-name">Release</div>
+      <knob-container [settings]="param.release" (onKnobDrag)="onDrag()"></knob-container>
+      <div class="knob-name">curve</div>
+      <knob-container [settings]="param.relCurve" (onKnobDrag)="onDrag()"></knob-container>
+    </div>
+  </div>
+  <div class="adsr-canvas">
+<!--     <svg width="300" height="100" version="1.1" viewBox="-1 -1 302 102" xmlns="http://www.w3.org/2000/svg">
+      <g [attr.id]="name+'-can'" fill="transparent" stroke="orange">
+        <path class="a" d="m0 100 L0 0"/>
+        <path class="h" d="m0 0 L0 0"/>
+        <path class="d" d="m0 0 L150 0"/>
+        <path class="r" d="m150 0 L 300 100"/>
+      </g>
+    </svg> -->
+    <canvas width="{{canvasW}}" height="{{canvasH}}" class="{{name}}-canvas"></canvas>
+  </div>
+</div>

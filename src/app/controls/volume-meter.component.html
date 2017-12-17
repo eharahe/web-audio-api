@@ -1,0 +1,7 @@
+<div class="vol-outer">
+  <div class="vol-panel" [attr.vertical]="settings.vertical">
+    <div *ngFor="let leds of ledArr;" class="channel">
+      <div *ngFor="let led of leds;" [attr.class]="'meter-led '+ led.status" [attr.color]="led.color"></div>
+    </div>
+  </div>
+</div>

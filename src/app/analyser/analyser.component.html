@@ -1,0 +1,136 @@
+<div class="analyser-outer">
+  <div class="waveform row">
+    <div class="col waveform-col">
+      <div class="audio-source-svg" *ngIf="showNodeInheritance">
+        <svg viewBox="-15 -20 1050 150" class="svg" preserveAspectRatio="xMinYMin meet">
+          <g>
+            <rect x="-9" y="1" width="120" height="50" fill="#F4F7F8" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="50" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">BufferSource</text>
+          </g>
+          <line x1="111" y1="25" x2="141" y2="25" stroke="#D4DDE4"></line>
+          <polyline points="141,20  141,30  151,25  141,20" stroke="#D4DDE4" fill="none"></polyline>
+          <g>
+            <rect x="151" y="1" width="90" height="50" fill="#F4F7F8" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="196" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">Gain1</text>
+          </g>
+          <polyline points="141,80  141,90  151,85  141,80" stroke="#D4DDE4" fill="none"></polyline>
+          <line x1="126" y1="25" x2="126" y2="85" stroke="#D4DDE4"></line>
+          <line x1="126" y1="85" x2="141" y2="85" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="151" y="61" width="90" height="50" fill="#F4F7F8" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="196" y="90" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">Gain2</text>
+          </g>  
+          <polyline points="271,20  271,30  281,25  271,20" stroke="#D4DDE4" fill="none"></polyline>
+          <line x1="241" y1="25" x2="271" y2="25" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="281" y="1" width="90" height="50" fill="#bccbd7" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="326" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">Filter</text>
+          </g>
+          <polyline points="401,20  401,30  411,25  401,20" stroke="#D4DDE4" fill="none"></polyline>
+          <line x1="371" y1="25" x2="401" y2="25" stroke="#D4DDE4"></line>
+          <line x1="241" y1="85" x2="386" y2="85" stroke="#D4DDE4"></line>
+          <line x1="386" y1="85" x2="386" y2="25" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="411" y="1" width="120" height="50" fill="#bccbd7" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="471" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">BassAnalyser</text>
+          </g>
+          <line x1="471" y1="51" x2="471" y2="61" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="411" y="61" width="120" height="50" fill="#F4F7F8" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="471" y="90" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">DelayNode</text>
+          </g>
+          <polyline points="571,20  571,30  581,25  571,20" stroke="#D4DDE4" fill="none"></polyline>
+          <line x1="556" y1="25" x2="571" y2="25" stroke="#D4DDE4"></line>
+          <line x1="556" y1="25" x2="556" y2="85" stroke="#D4DDE4"></line>
+          <line x1="530" y1="85" x2="556" y2="85" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="581" y="1" width="120" height="50" fill="#bccbd7" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="641" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">MidAnalyser</text>
+          </g>
+          <line x1="641" y1="51" x2="641" y2="61" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="581" y="61" width="120" height="50" fill="#F4F7F8" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="641" y="90" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">DelayNode</text>
+          </g>
+          <polyline points="741,20  741,30  751,25  741,20" stroke="#D4DDE4" fill="none"></polyline>
+          <line x1="726" y1="25" x2="741" y2="25" stroke="#D4DDE4"></line>
+          <line x1="726" y1="25" x2="726" y2="85" stroke="#D4DDE4"></line>
+          <line x1="700" y1="85" x2="726" y2="85" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="751" y="1" width="120" height="50" fill="#bccbd7" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="811" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">TremAnalyser</text>
+          </g>
+          <polyline points="901,20  901,30  911,25  901,20" stroke="#D4DDE4" fill="none"></polyline>
+          <line x1="871" y1="25" x2="901" y2="25" stroke="#D4DDE4"></line>
+          <g>
+            <rect x="911" y="1" width="120" height="50" fill="#F4F7F8" stroke="#D4DDE4" stroke-width="2px"></rect>
+            <text x="971" y="30" font-size="14px" font-family="Consolas,Monaco,Andale Mono,monospace" fill="#4D4E53" text-anchor="middle" alignment-baseline="middle">Destination</text>
+          </g>
+        </svg>
+      </div>
+      <div class="svg-hide"><div class="svg-hide-btn" (click)="showSvgClick()"><div class="dash"></div><div class="dash"></div></div></div>
+      <label for="audio-input" class="audio-input-label">
+        <input type="file" id="audio-input" accept="audio/*" (change)="musicChange($event)" [disabled]="wave.analyzing">
+        Select Local Audio File
+      </label>
+      <input type="text" (change)="urlStr=$event.target.value;">
+      <label class="audio-input-label">
+        <div (click)="downloadClick()">Fetch by URL</div>
+      </label>
+      <label class="audio-input-label" (click)="demoClick();">Demo</label>
+      <div class="waveform-container">
+        <canvas class="waveform-canvas" width="{{wave.width}}" height="{{wave.height}}"></canvas>
+        <div class="waveform-info">{{wave.waveformInfo}}</div>
+        <div class="waveform-ts">{{wave.waveformTs}}</div>
+        <div class="waveform-ind" [ngStyle]="{'left':playback.percent+'%'}" *ngIf="playback.playAble"></div>
+      </div>
+      <div class="play-controls">
+        <button class="play-pause" [disabled]="!playback.playAble" (click)="onMusicPlayPause()">
+          <div *ngIf="playback.isPlaying" class="pause">〓</div>
+          <div *ngIf="!playback.isPlaying">▶</div>
+        </button>
+        <button class="stop" [disabled]="!playback.playAble||playback.isStopped" (click)="onMusicStop()">■</button>
+        <button class="ghost" (click)="ghostClick()"></button>
+      </div>
+    </div>
+  </div>
+  <div class="frequency row">
+    <div class="col frequency-col">
+      <div class="diagram-title">Spectrum</div>
+      <canvas class="frequency-canvas" width="{{freq.width}}" height="{{freq.height}}"></canvas>
+      <div class="frequency-ts">{{freq.frequencyTs}}</div>
+    </div>
+  </div>
+  <div class="spectrogram row">
+    <div class="col stereo-col">
+      <div class="diagram-title">BiquadFilter</div>
+      <div class="filter-panel">
+        <div>
+          <select [(ngModel)]="filter.type" (change)="onFilterChange()" >
+            <option *ngFor="let tp of filterTypes" value="{{tp.id}}">{{tp.name}}</option>
+          </select>
+        </div>
+        <div class="knob-col">
+          <div class="knob-name">Freq</div>
+          <knob-container [settings]="filter.freq" (onKnobDrag)="onFreqDrag()"></knob-container>
+        </div> 
+        <div class="knob-col">
+          <div class="knob-name">Q</div>
+          <knob-container [settings]="filter.q" (onKnobDrag)="onQDrag()"></knob-container>
+        </div>
+        <div class="knob-col">
+          <div class="knob-name">Gain</div>
+          <knob-container [settings]="filter.gain" (onKnobDrag)="onGainDrag()"></knob-container>
+        </div>
+        <div class="knob-col">
+          <div class="knob-name">Mix</div>
+          <knob-container [settings]="filter.mix" (onKnobDrag)="onMixDrag()"></knob-container>
+        </div>
+      </div>
+    </div>
+    <div class="col spectrogram-col">
+      <div class="diagram-title">Spectrogram</div>
+      <canvas class="spec-canvas" width="{{spec.width*pixelRatio}}" height="{{spec.height*pixelRatio}}"></canvas>
+    </div>
+  </div>
+</div>

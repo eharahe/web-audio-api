@@ -1,0 +1,24 @@
+.container-fluid{
+  min-width: 750px;
+  user-select: none;
+  text-align: center;
+}
+nav{
+  height: 24px;
+  background: #fafafa;
+}
+nav a{
+  height: 24px;
+  line-height: 24px;
+  display: inline-block;
+  margin-left: 5px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+nav a:hover{
+  background: #eee;
+}
+.back{
+  float:right;
+  margin-right: 5px;
+}

@@ -1,0 +1,9 @@
+<div class="filter-dashboard form-inline">
+  <div class="knob-col">
+    <div class="knob-name">Amount</div>
+    <knob-container [settings]="settings.amount" (onKnobDrag)="onDrag()"></knob-container>
+  </div>
+  <div class="knob-col filter-canvas">
+    <canvas width="{{canvasW}}" height="{{canvasH}}" class="{{name}}-canvas"></canvas>
+  </div>
+</div>
