@@ -1,64 +1,43 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
-import { SuperService }                         from '../core/super.service';
-import { MappingType } from '../core/value-mapping.service';
-import { KnobColors } from '../controls/knob';
+import { Component }                        from '@angular/core';
+import { OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { SuperService }                     from '../core/super.service';
+import { AnalyserNodes }                    from './analyser-nodes';
+import { Visualizer }                       from './visualiser';
 
 enum PlaybackState{
   Stoped,
   Playing,
   Paused
 }
+
 @Component({
   selector: 'analyser-container',
   templateUrl: './analyser.component.html',
   styleUrls: ['./analyser.component.css']
 })
-export class AnalyserComponent implements OnInit, OnDestroy{
+export class AnalyserComponent implements OnInit, OnDestroy, AfterViewInit{
   showNodeInheritance = false;
   private audioCtx = null;
   private audioData = null;
   private bufferSrc = null;
   private mediaStreamSrc = null;
-  private BTMDelay = null;
-  private MTTDelay = null;
   urlStr = "";
   latestXHR = null;
+  analyserNodes = null;
+  vl = null;
+
   filter = {
-    filter: null,
-    g1: null,
-    g2: null,
-    q: null,
-    gain: null,
-    freq: null,
-    mix: null,
+    knobs: null,
     type: 'lowpass',
-  };
-  filterTypes = [
-    {id:'lowpass', name:'Lowpass'},
-    {id:'highpass', name:'Highpass'},
-    {id:'bandpass', name:'Bandpass'},
-    {id:'lowshelf', name:'Lowshelf'},
-    {id:'highshelf', name:'Highshelf'},
-    {id:'peaking', name:'Peaking'},
-    {id:'notch', name:'Notch'},
-  ]
-  private bass = {
-    analyser: null,
-    step: 10,
-    fftSize: 16384/2,
-    fftLen: 0
-  }
-  private mid = {
-    analyser: null,
-    step: 20,
-    fftSize: 4096,
-    fftLen: 0
-  }
-  private trem = {
-    analyser: null,
-    step: 20,
-    fftSize: 2048,
-    fftLen: 0
+    filterTypes : [
+      {id:'lowpass',   name:'Lowpass'  },
+      {id:'highpass',  name:'Highpass' },
+      {id:'bandpass',  name:'Bandpass' },
+      {id:'lowshelf',  name:'Lowshelf' },
+      {id:'highshelf', name:'Highshelf'},
+      {id:'peaking',   name:'Peaking'  },
+      {id:'notch',     name:'Notch'    }
+    ]
   }
   pixelRatio = 1;
 
@@ -76,104 +55,53 @@ export class AnalyserComponent implements OnInit, OnDestroy{
     waveformInfo: '',
     waveformTs: '',
     width: 1000,
-    height: 150
+    height: 200
   }
   freq = {
     width : 1000,
-    height : 200,
-    startFreq: 20,
-    endFreq: 22000,
-    coef: null,
-    frequencyTs : ''
+    height : 250,
+    ts : 'Render:',
+    visualizer : '2d'
   };
-  spec = {
-    width : 490,
-    height : 350,
-    startFreq: 40,
-    endFreq: 16000,
-    coef: null
+  sonogram = {
+    width : 700,
+    height : 500,
+    ts : 'Render:',
+    visualizer : 'webgl'
   };
 
   constructor(sp: SuperService){
     this.audioCtx = sp.getAudioContext();
   }
   ngOnInit(){
+    // init routes
+    this.analyserNodes = new AnalyserNodes();
+    this.analyserNodes.init(this.audioCtx);
+    this.filter.knobs = this.analyserNodes.getFilterKnobs();
+
     this.pixelRatio = window.devicePixelRatio;
-    this.initAnalyser(this.bass);
-    this.initAnalyser(this.mid);
-    this.initAnalyser(this.trem);
-
-    let bassToMid = this.bass.fftLen - this.mid.fftLen,
-        midToTrem = this.mid.fftLen - this.trem.fftLen;
-    
-    this.BTMDelay = this.audioCtx.createDelay(bassToMid/2);
-    this.MTTDelay = this.audioCtx.createDelay(midToTrem/2);
-    this.BTMDelay.delayTime.value = bassToMid/2;
-    this.MTTDelay.delayTime.value = midToTrem/2;
-
-    this.bass.analyser.connect(this.BTMDelay);
-    this.BTMDelay.connect(this.mid.analyser);
-    this.mid.analyser.connect(this.MTTDelay);
-    this.MTTDelay.connect(this.trem.analyser);
-    this.trem.analyser.connect(this.audioCtx.destination);
-
-    this.filter.filter = this.audioCtx.createBiquadFilter();
-    this.filter.g1 = this.audioCtx.createGain();
-    this.filter.g2 = this.audioCtx.createGain();
-    this.filter.g1.connect(this.filter.filter);
-    this.filter.filter.connect(this.bass.analyser);
-    this.filter.g2.connect(this.bass.analyser);
-    this.filter.filter.type = this.filter.type;
-    this.filter.g1.gain.value = 0;
-    this.filter.g2.gain.value = 1;
-    this.filter.freq = {
-      id: 'filter-freq',
-      range: [20, 16000],
-      size: 60,
-      value: 200,
-      color: KnobColors.green,
-      unit: 'hz',
-      mapping: MappingType.Exp10,
-      mods: []
-    };
-    this.filter.gain = {
-      id: 'filter-gain',
-      range: [-40, 40],
-      size: 60,
-      value: 0,
-      unit: 'dB',
-      color: KnobColors.purple,
-      mapping: MappingType.Linear,
-      mods: []
-    };
-    this.filter.q = {
-      id: 'filter-q',
-      range: [0.001, 30],
-      size: 60,
-      value: 1,
-      unit: '',
-      color: KnobColors.blue,
-      mapping: MappingType.Exp10,
-      mods: []
-    };
-    this.filter.mix = {
-      id: 'filter-mix',
-      range: [0, 1],
-      size: 60,
-      value: 0,
-      unit: '',
-      color: KnobColors.black,
-      mapping: MappingType.Linear,
-      mods: []
-    }
-
-    this.spec.startFreq = this.freq.startFreq = Math.max(40, this.bass.step);
-    this.freq.endFreq = Math.min(22000, this.audioCtx.sampleRate / 2); 
-    this.freq.coef = this.getLogCoefficients(this.freq.width);
-    this.spec.coef = this.getLogCoefficients(this.spec.height*this.pixelRatio);
-    
     // this.usermediaInit();
     // this.startTimmer();
+  }
+  ngAfterViewInit(){
+    let freqCanvas = document.querySelector('.frequency-canvas'),
+        sonoCanvas = document.querySelector('.sonogram-canvas'),
+        freqGL = document.querySelector('.frequency-canvas-gl'),
+        sonoGL = document.querySelector('.sonogram-canvas-gl');
+
+    let bass = this.analyserNodes.getFreqData('bass'),
+        mid = this.analyserNodes.getFreqData('mid'),
+        trem = this.analyserNodes.getFreqData('trem');
+
+    this.vl = new Visualizer(bass, mid, trem);
+    this.vl.initGL(freqGL, sonoGL, this.audioCtx.sampleRate/2);
+    this.vl.init2d(freqCanvas, sonoCanvas);
+  }
+  ngOnDestroy(){
+    // this.endTimmer();
+    this.onMusicStop();
+    this.analyserNodes.uninit();
+    // this.mediaStreamSrc.disconnect();
   }
   downloadClick(){
     if(this.urlStr)
@@ -181,11 +109,13 @@ export class AnalyserComponent implements OnInit, OnDestroy{
   }
   demoClick(){
     let urls = [
-      'assets/music/hysteria.mp3',
+      'assets/music/penglai.mp3',
+      'assets/impulse/hall5.wav',
       'assets/music/ywq.mp3',
-      'assets/music/youarethehero.mp3'
+      'assets/music/wow.mp3',
+      'assets/music/too_kewl.mp3'
     ];
-    this.getRemote(urls[Math.floor(Math.random()*2.99)]);
+    this.getRemote(urls[Math.floor(Math.random()*(urls.length-0.01))]);
   }
   usermediaInit(){
     if (navigator.getUserMedia) {
@@ -194,8 +124,7 @@ export class AnalyserComponent implements OnInit, OnDestroy{
           {audio: true},
           (stream) => {
              this.mediaStreamSrc = this.audioCtx.createMediaStreamSource(stream);
-             this.mediaStreamSrc.connect(this.filter.g1);
-             this.mediaStreamSrc.connect(this.filter.g2);
+             this.analyserNodes.connectSrc(this.mediaStreamSrc);
           },
           (err) => {
              console.log('The following gUM error occured: ' + err);
@@ -205,25 +134,8 @@ export class AnalyserComponent implements OnInit, OnDestroy{
        console.log('getUserMedia not supported on your browser!');
     }
   }
-  ngOnDestroy(){
-    // this.endTimmer();
-    this.onMusicStop();
-    this.bass.analyser.disconnect();
-    this.mid.analyser.disconnect();
-    this.trem.analyser.disconnect();
-    this.BTMDelay.disconnect();
-    this.MTTDelay.disconnect();
-    this.filter.filter.disconnect();
-    // this.mediaStreamSrc.disconnect();
-  }
-  private initAnalyser(o){
-    o.analyser = this.audioCtx.createAnalyser();
-    o.analyser.smoothingTimeConstant = 0.8;
-    o.analyser.fftSize = o.fftSize;
-    o.analyser.minDecibels = -90;
-    o.analyser.maxDecibels = 0;
-    o.step = this.audioCtx.sampleRate / 2 / o.analyser.frequencyBinCount;
-    o.fftLen = o.fftSize / this.audioCtx.sampleRate;
+  smoothChange(e){
+    this.analyserNodes.onSmoothingChange(+e.target.value)
   }
   showSvgClick = function(){
     this.showNodeInheritance = !this.showNodeInheritance;
@@ -250,11 +162,6 @@ export class AnalyserComponent implements OnInit, OnDestroy{
   }
   getRemote = function(url){
     this.onMusicStop();
-    // let reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
-    // if(!url.match(reg)){
-    //   this.wave.waveformInfo = 'File Url Illegal!';
-    //   return;
-    // }
     this.wave.analyzing = true;
     this.playback.playAble = false;
     this.wave.waveformInfo = 'Downloading '+url+'...';
@@ -350,9 +257,11 @@ export class AnalyserComponent implements OnInit, OnDestroy{
 
     let canvas : any = document.querySelector('.waveform-canvas'),
         canvasCtx = canvas.getContext("2d"),
-        channelHeight = this.wave.height/channelNum;
+        canvasW = canvas.width,
+        canvasH = canvas.height,
+        channelHeight = canvasH/channelNum;
 
-    canvasCtx.clearRect(0, 0, this.wave.width, this.wave.height);
+    canvasCtx.clearRect(0, 0, canvasW, canvasH);
     canvasCtx.lineWidth = .5;
     canvasCtx.strokeStyle = 'orange';
 
@@ -375,7 +284,7 @@ export class AnalyserComponent implements OnInit, OnDestroy{
       }
 
       canvasCtx.beginPath(); 
-      let sliceWidth = this.wave.width * 1.0 / graphArray.length,
+      let sliceWidth = canvasW * 1.0 / graphArray.length,
           x = 0;
 
       for(let i = 0; i < graphArray.length; i++) {
@@ -396,7 +305,8 @@ export class AnalyserComponent implements OnInit, OnDestroy{
       canvasCtx.lineTo(canvas.width, (c+0.5)*channelHeight);
       canvasCtx.stroke();
     }
-    this.wave.waveformInfo = '[Name]: ' + this.audioData.name + ' [Peak]: '+ peak.toFixed(2);
+    this.wave.waveformInfo = '[Name]: '+ this.audioData.name +' '+
+                             '[Peak]: '+ peak.toFixed(2);
   }
   private ghostRef(){
     let ghostBtn:any = document.querySelector('.ghost');
@@ -408,9 +318,7 @@ export class AnalyserComponent implements OnInit, OnDestroy{
     if(this.playback.isStopped){
       this.bufferSrc = this.audioCtx.createBufferSource();
       this.bufferSrc.buffer = this.audioData.buffer;
-      this.bufferSrc.connect(this.filter.g1);
-      this.bufferSrc.connect(this.filter.g2);
-      // this.bufferSrc.connect(this.audioCtx.destination);
+      this.analyserNodes.connectSrc(this.bufferSrc);
       this.bufferSrc.start();
       this.playback.lastTs = this.audioCtx.currentTime;
       this.changeState(PlaybackState.Playing);
@@ -464,32 +372,47 @@ export class AnalyserComponent implements OnInit, OnDestroy{
   }
   private startTimmer(){
     let loop = ()=>{
+
       //waveform
-      this.checkPlaybackPos();
+      this.refPlaybackStatus();
 
-      //spectrum
-      let bassArrLen = this.bass.analyser.frequencyBinCount,
-          bassArray = new Uint8Array(bassArrLen),
-          midArrLen = this.mid.analyser.frequencyBinCount,
-          midArray = new Uint8Array(midArrLen),
-          tremArrLen = this.trem.analyser.frequencyBinCount,
-          tremArray = new Uint8Array(tremArrLen),
-          t0 = new Date().getTime();
+      //get frequency data
+      let t0 = new Date().getTime(),
+          bassArr = this.analyserNodes.getFreqData('bass'),
+          midArr = this.analyserNodes.getFreqData('mid'),
+          tremArr = this.analyserNodes.getFreqData('trem');
 
-      this.bass.analyser.getByteFrequencyData(bassArray);
-      this.mid.analyser.getByteFrequencyData(midArray);
-      this.trem.analyser.getByteFrequencyData(tremArray);
-      this.drawFreq(bassArray,midArray,tremArray);
-      this.drawSpec(bassArray,midArray,tremArray);
+      //freq
+      let t1 = new Date().getTime();
+      this.vl.drawFreqency(
+        this.freq.visualizer == 'webgl',
+        this.audioCtx.sampleRate,
+        bassArr, midArr, tremArr
+      );
+      let t2 = new Date().getTime();
+      this.freq.ts = 'Arrange buffer: '+ (t1 - t0) +'ms  '+
+                     'Render: '+ (t2 - t1) +'ms';
+
+      //sonogram
+      t0 = new Date().getTime();
+      if(this.playback.isPlaying){
+        this.vl.drawSonogram(
+          this.sonogram.visualizer == 'webgl',
+          this.audioCtx.sampleRate,
+          bassArr, midArr, tremArr
+        );
+      }
       this.playback.timmer = requestAnimationFrame(loop);
-      this.freq.frequencyTs = 'Render cost: ' + (new Date().getTime() - t0) + 'ms';
+      this.sonogram.ts = 'Render cost: ' + (new Date().getTime() - t0) + 'ms';
     }
+
+    //start loop
     loop();
   }
   private endTimmer(){
     cancelAnimationFrame(this.playback.timmer);
   }
-  private checkPlaybackPos(){
+  private refPlaybackStatus(){
     let now = this.audioCtx.currentTime,
         ts = 0;
 
@@ -499,193 +422,27 @@ export class AnalyserComponent implements OnInit, OnDestroy{
     else{
       ts = this.playback.offset;
     }
-    this.wave.waveformTs = this.timeFormat(ts) + ' / ' + this.timeFormat(this.audioData.buffer.duration);
-    this.playback.percent = (Math.max(0, ts-this.bass.fftLen/2))/this.audioData.buffer.duration * 100;
-  }
+    this.wave.waveformTs = this.timeFormat(ts) + ' / '
+                            + this.timeFormat(this.audioData.buffer.duration);
 
-  /***************************************
-     *  ╭ a + b*log2(startFreq) = 1
-     *  <
-     *  ╰ a + b*log2(endFreq) = freqW
-    /**************************************/
-  private getLogCoefficients(freqW){
-    let startFreq = this.freq.startFreq,
-        endFreq = this.freq.endFreq,
-        b = (freqW-1) / (Math.log2(endFreq) - Math.log2(startFreq)),
-        a = 1 - b * Math.log2(startFreq);
-    return {a:a,b:b};
-  }
-
-  private getLogVal(val, a, b){
-    return a+b*Math.log2(val);
-  }
-
-  private getRenderArray(array, step, a, b, low, high, blend){
-    let renderArray = [],
-        i = 0,
-        lastX = 0,
-        lowX = this.getLogVal(low, a, b),
-        highX = this.getLogVal(high, a, b);
-
-    while(i < array.length){
-      let x = this.getLogVal(i*step, a, b),
-          dx = x - lastX,
-          r = Math.min(Math.round(1/dx), array.length-i),
-          sum = 0;
-
-      if(x < lowX){
-        i++;
-        continue;
-      }
-      if(x >= highX){
-        break;
-      }
-      if(r >= blend){
-        for(let j=0; j<r; j++){
-          sum += array[i+j];
-        }
-        renderArray.push({x:x, y:sum/r});
-        i+=r;
-      }
-      else{
-        renderArray.push({x:x, y:array[i]});
-        i++;
-      }
-      lastX = x;
-    }
-    return renderArray;
-  }
-  private drawFreq(bassArr, midArr, tremArr){
-
-    let canvas : any = document.querySelector('.frequency-canvas'),
-        canvasCtx = canvas.getContext("2d"),
-        bassRenderArr = this.getRenderArray(bassArr, this.bass.step, this.freq.coef.a, this.freq.coef.b, this.freq.startFreq, 180, 2),
-        midRenderArr = this.getRenderArray(midArr, this.mid.step, this.freq.coef.a, this.freq.coef.b, 180, 4000, 2),
-        tremRenderArr = this.getRenderArray(tremArr, this.trem.step, this.freq.coef.a, this.freq.coef.b, 4000, this.freq.endFreq, 2),
-        renderArray = bassRenderArr.concat(midRenderArr, tremRenderArr);
-
-    let getY = (y) => {
-      return ( (1-y) * 0.85 + 0.07 ) * this.freq.height;
-    }
-
-    canvasCtx.clearRect(0, 0, this.freq.width, this.freq.height);
-    canvasCtx.lineWidth = .5;
-    canvasCtx.strokeStyle = '#2d3341';
-    canvasCtx.fillStyle = '#a9b8de';
-    canvasCtx.beginPath();
-
-    for(let i = 0; i < renderArray.length; i++) {
-
-      let x = renderArray[i].x,
-          y = getY(renderArray[i].y/256);
-
-      if(i == 0) {
-        canvasCtx.moveTo(x, getY(0));
-      }
-      canvasCtx.lineTo(x, y);
-    }
-    canvasCtx.lineTo(canvas.width, getY(0));
-    canvasCtx.lineTo(0, getY(0));
-    canvasCtx.closePath();
-    canvasCtx.stroke();
-    canvasCtx.fill();
-
-    //axis
-    let freqArr = ['60','100','160','300','500','1k','2k','4k','8k','12k','20k'];
-    for(let i=0; i<freqArr.length; i++){
-      let x = Math.round(this.getLogVal(+freqArr[i].replace('k','000'), this.freq.coef.a, this.freq.coef.b));
-      canvasCtx.strokeStyle = 'orange';
-      canvasCtx.beginPath();
-      canvasCtx.moveTo(x, getY(0));
-      canvasCtx.lineTo(x, getY(1));
-      canvasCtx.stroke();
-      canvasCtx.fillStyle = '#fff';
-      canvasCtx.fillText(freqArr[i]+" Hz", x-17, this.freq.height-5);
-    }
-
-    let volArr = ['   0', -10, -20, -30, -40, -50, -60, -70, -80];
-    for(let i=0; i<volArr.length; i++){
-      let y = Math.round(getY(1 - (-volArr[i])/90));
-      canvasCtx.strokeStyle = '#fff';
-      if(i==0){
-        canvasCtx.strokeStyle = '#000';
-      }
-      canvasCtx.beginPath();
-      canvasCtx.moveTo(0, y);
-      canvasCtx.lineTo(this.freq.width, y);
-      canvasCtx.stroke();
-      canvasCtx.fillStyle = '#fff';
-      canvasCtx.fillText(volArr[i]+" dB", 2, y+12);
-    }
-  }
-  private drawSpec(bassArr, midArr, tremArr){
-   
-    let canvas : any = document.querySelector('.spec-canvas'),
-        canvasCtx = canvas.getContext("2d"),
-        ratio = this.pixelRatio,
-        bassRenderArr = this.getRenderArray(bassArr, this.bass.step, this.spec.coef.a, this.spec.coef.b, this.spec.startFreq, 180, 3),
-        midRenderArr = this.getRenderArray(midArr, this.mid.step, this.spec.coef.a, this.spec.coef.b, 170, 4000, 3),
-        tremRenderArr = this.getRenderArray(tremArr, this.trem.step, this.spec.coef.a, this.spec.coef.b, 4000, this.spec.endFreq, 3),
-        renderArray = bassRenderArr.concat(midRenderArr, tremRenderArr);
-
-    //shift
-    let imgData=canvasCtx.getImageData(2,0,this.spec.width*ratio,this.spec.height*ratio);
-    canvasCtx.putImageData(imgData, 0, 0);
-    canvasCtx.lineWidth = 1;
-
-    //draw current snap
-    let x0 = this.spec.width*ratio-1,
-        getY = (y)=>{
-          return this.spec.height*ratio - y;
-        };
-
-    if(this.playback.isPlaying){
-      
-      for(let i=0; i<renderArray.length; i++) {
-        let l = Math.round(renderArray[i].y/256 * 100);
-
-        canvasCtx.beginPath();
-        if(i == 0) {
-          canvasCtx.moveTo(x0, getY(0));
-        }
-        else{
-          canvasCtx.moveTo(x0, getY(renderArray[i-1].x));
-        }        
-        canvasCtx.strokeStyle = 'hsl(212, 40%, '+l+'%)';
-        canvasCtx.lineTo(x0, getY(renderArray[i].x));
-        canvasCtx.closePath();
-        canvasCtx.stroke();
-
-        // if(i == 0) {
-        //   canvasCtx.rect(x0, getY(0), x0+1, getY(renderArray[i].x));
-        // }
-        // else{
-        //   canvasCtx.moveTo(x0, getY(renderArray[i-1].x));
-        //   canvasCtx.rect(x0, getY(renderArray[i].x-1), 1, getY(renderArray[i].x)-getY(renderArray[i-1].x));
-        // }   
-        // canvasCtx.fillStyle = 'hsl(212, 40%, '+l+'%)';
-        // canvasCtx.fill();
-      }
-    }
-    else{
-      canvasCtx.clearRect(this.spec.width*ratio-2, 0, this.spec.width*ratio, this.spec.height*ratio);
-    }
+    let FFTFrameLen = 1 / this.analyserNodes.getAnalyserStep('bass');
+    let playingTime = Math.max( 0, ts - FFTFrameLen/2 );
+    this.playback.percent = playingTime / this.audioData.buffer.duration * 100;
   }
 
   onFilterChange(){
-    this.filter.filter.type = this.filter.type;
+    this.analyserNodes.onFilterTypeChange(this.filter.type);
   }
   onFreqDrag(){
-    this.filter.filter.frequency.value = this.filter.freq.value;
+    this.analyserNodes.onFilterChange();
   }
   onQDrag(){
-    this.filter.filter.Q.value = this.filter.q.value;
+    this.analyserNodes.onFilterChange();
   }
   onGainDrag(){
-    this.filter.filter.gain.value = this.filter.gain.value;
+    this.analyserNodes.onFilterChange();
   }
   onMixDrag(){
-    this.filter.g1.gain.value = this.filter.mix.value;
-    this.filter.g2.gain.value = 1-this.filter.mix.value;
+    this.analyserNodes.onFilterChange();
   }
 }

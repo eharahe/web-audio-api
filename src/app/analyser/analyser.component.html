@@ -71,15 +71,18 @@
       <div class="svg-hide"><div class="svg-hide-btn" (click)="showSvgClick()"><div class="dash"></div><div class="dash"></div></div></div>
       <label for="audio-input" class="audio-input-label">
         <input type="file" id="audio-input" accept="audio/*" (change)="musicChange($event)" [disabled]="wave.analyzing">
-        Select Local Audio File
+        Local Audio File
       </label>
-      <input type="text" (change)="urlStr=$event.target.value;">
+      <span class="or">or</span>
+      <input type="text" (change)="urlStr=$event.target.value;" placeholder="Online Music URL">
       <label class="audio-input-label">
-        <div (click)="downloadClick()">Fetch by URL</div>
+        <div (click)="downloadClick()">Fetch</div>
       </label>
+      <span class="or">or</span>
       <label class="audio-input-label" (click)="demoClick();">Demo</label>
       <div class="waveform-container">
-        <canvas class="waveform-canvas" width="{{wave.width}}" height="{{wave.height}}"></canvas>
+        <div class="diagram-title">Waveform</div>
+        <canvas class="waveform-canvas" width="{{wave.width*pixelRatio}}" height="{{wave.height*pixelRatio}}"></canvas>
         <div class="waveform-info">{{wave.waveformInfo}}</div>
         <div class="waveform-ts">{{wave.waveformTs}}</div>
         <div class="waveform-ind" [ngStyle]="{'left':playback.percent+'%'}" *ngIf="playback.playAble"></div>
@@ -97,40 +100,67 @@
   <div class="frequency row">
     <div class="col frequency-col">
       <div class="diagram-title">Spectrum</div>
-      <canvas class="frequency-canvas" width="{{freq.width}}" height="{{freq.height}}"></canvas>
-      <div class="frequency-ts">{{freq.frequencyTs}}</div>
+      <div class="frequency-visual">
+        <div>
+          Render:
+          <input type="radio" name="freq-visualizer" value="2d" id="freq-2d" [(ngModel)]="freq.visualizer"><label for="freq-2d">2d</label>
+          <input type="radio" name="freq-visualizer" value="webgl" id="freq-3d" [(ngModel)]="freq.visualizer"><label for="freq-3d">webgl</label>
+        </div>
+        <div>
+          Smoothing:
+          <input type="radio" name="smoothing" value="0.1" id="smoothing-1" (change)="smoothChange($event)"><label for="smoothing-1">.1</label>
+          <input type="radio" name="smoothing" value="0.3" id="smoothing-2" (change)="smoothChange($event)"><label for="smoothing-2">.3</label>
+          <input type="radio" name="smoothing" value="0.5" id="smoothing-3" (change)="smoothChange($event)" checked><label for="smoothing-3">.5</label>
+          <input type="radio" name="smoothing" value="0.7" id="smoothing-4" (change)="smoothChange($event)"><label for="smoothing-4">.7</label>
+          <input type="radio" name="smoothing" value="0.9" id="smoothing-5" (change)="smoothChange($event)"><label for="smoothing-5">.9</label>
+        </div>
+        <div class="frequency-ts">{{freq.ts}}</div>
+      </div>
+      <canvas class="frequency-canvas" [hidden]="freq.visualizer=='webgl'" width="{{freq.width*pixelRatio}}" height="{{freq.height*pixelRatio}}"></canvas>
+      <canvas class="frequency-canvas-gl" [hidden]="freq.visualizer=='2d'" width="{{freq.width*pixelRatio}}" height="{{freq.height*pixelRatio}}"></canvas>
     </div>
   </div>
   <div class="spectrogram row">
-    <div class="col stereo-col">
+    <div class="col-4 stereo-col">
       <div class="diagram-title">BiquadFilter</div>
       <div class="filter-panel">
         <div>
           <select [(ngModel)]="filter.type" (change)="onFilterChange()" >
-            <option *ngFor="let tp of filterTypes" value="{{tp.id}}">{{tp.name}}</option>
+            <option *ngFor="let tp of filter.filterTypes" value="{{tp.id}}">{{tp.name}}</option>
           </select>
         </div>
-        <div class="knob-col">
-          <div class="knob-name">Freq</div>
-          <knob-container [settings]="filter.freq" (onKnobDrag)="onFreqDrag()"></knob-container>
-        </div> 
-        <div class="knob-col">
-          <div class="knob-name">Q</div>
-          <knob-container [settings]="filter.q" (onKnobDrag)="onQDrag()"></knob-container>
+        <div>
+          <div class="knob-col">
+            <div class="knob-name">Freq</div>
+            <knob-container [settings]="filter.knobs.freq" (onKnobDrag)="onFreqDrag()"></knob-container>
+          </div> 
+          <div class="knob-col">
+            <div class="knob-name">Q</div>
+            <knob-container [settings]="filter.knobs.q" (onKnobDrag)="onQDrag()"></knob-container>
+          </div>
         </div>
-        <div class="knob-col">
-          <div class="knob-name">Gain</div>
-          <knob-container [settings]="filter.gain" (onKnobDrag)="onGainDrag()"></knob-container>
-        </div>
-        <div class="knob-col">
-          <div class="knob-name">Mix</div>
-          <knob-container [settings]="filter.mix" (onKnobDrag)="onMixDrag()"></knob-container>
+        <div>
+          <div class="knob-col">
+            <div class="knob-name">Gain</div>
+            <knob-container [settings]="filter.knobs.gain" (onKnobDrag)="onGainDrag()"></knob-container>
+          </div>
+          <div class="knob-col">
+            <div class="knob-name">Mix</div>
+            <knob-container [settings]="filter.knobs.mix" (onKnobDrag)="onMixDrag()"></knob-container>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col spectrogram-col">
+    <div class="col-8 spectrogram-col">
       <div class="diagram-title">Spectrogram</div>
-      <canvas class="spec-canvas" width="{{spec.width*pixelRatio}}" height="{{spec.height*pixelRatio}}"></canvas>
+      <div class="frequency-visual">
+        Render:
+        <input type="radio" name="sono-visualizer" value="2d" id="sono-2d" [(ngModel)]="sonogram.visualizer"><label for="sono-2d">2d</label>
+        <input type="radio" name="sono-visualizer" value="webgl" id="sono-3d" [(ngModel)]="sonogram.visualizer"><label for="sono-3d">webgl</label>
+        <div class="sonogram-ts">{{sonogram.ts}}</div>
+      </div>
+      <canvas class="sonogram-canvas" [hidden]="sonogram.visualizer=='webgl'" width="{{sonogram.width*pixelRatio}}" height="{{sonogram.height*pixelRatio}}"></canvas>
+      <canvas class="sonogram-canvas-gl" [hidden]="sonogram.visualizer=='2d'" width="{{sonogram.width*pixelRatio}}" height="{{sonogram.height*pixelRatio}}"></canvas>
     </div>
   </div>
 </div>

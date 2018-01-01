@@ -1,7 +1,7 @@
 .container-fluid{
-  min-width: 750px;
   user-select: none;
   text-align: center;
+  padding: 0;
 }
 nav{
   height: 24px;
@@ -19,6 +19,6 @@ nav a:hover{
   background: #eee;
 }
 .back{
-  float:right;
-  margin-right: 5px;
+  position: absolute;
+  right: 5px;
 }

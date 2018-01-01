@@ -1,3 +1,10 @@
+.synth{
+  min-width: 737px;
+}
+.synth .row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
 .synth-header{
   background: linear-gradient(#505a70, #3b3e45 70%, #333) #333;
   height: 80px;
@@ -28,7 +35,7 @@
 .rt-col{
   flex:3;
   padding: 0;
-  min-width: 743px;
+  /*min-width: 743px;*/
   margin: 0 3px;
 }
 .modulators{

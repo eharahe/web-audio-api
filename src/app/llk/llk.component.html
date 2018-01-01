@@ -1,7 +1,36 @@
-<div class="llk-block row">
-  <div class="llk-head"></div>
-  <div class="llk-body">
-    <div *ngFor="let img of matrix" [attr.active]="img.active" class="llk-img" [style.top]="50*(img.y+1)+'px'" [style.left]="50*(img.x+1)+'px'" (click)="imgClick(img.x,img.y,$event)"><div class="img-con"><div class="img-mask"></div><img src="assets/img/llk/{{img.type}}.jpg"></div></div>
-    <canvas class="canvas" width="800" height="600"></canvas>
+<div class="llk-block " [style.height.px]="65+cardWidth*(rows+2)*scaleRatio">
+  <div class="llk-head">
+    <div class="lvl-name">{{levels[currentLevel] ? levels[currentLevel].name : ''}}</div>
+    <div class="hintlabel">还有<b class="hint-num"> {{hintNum}} </b>次提示</div>
+    <div class="mybtn hint" (click)="hint()">提示</div>
+    <div class="mybtn pause" (click)="pause()">暂停</div>
+  </div>
+  <div class="llk-body" [style.transform]="'scale('+scaleRatio+')'">
+    <div class="lifebar">
+      <div class="bar" [style.width.%]="life*100"></div>
+      <div class="mask"></div>
+    </div>
+    <div *ngFor="let img of cardSet" 
+          [attr.active]="img.active" class="llk-img" 
+          [class.onhint]="img.hint"
+          [style.top]="cardWidth*(img.y+1)+'px'"
+          [style.left]="cardWidth*(img.x+1)+'px'"
+          (click)="imgClick(img.x,img.y,$event)">
+      <div class="img-con"><div class="img-mask"></div><img src="assets/img/llk/{{img.type}}.jpg"></div>
+    </div>
+    <canvas class="canvas" width="{{cardWidth*(cols+2)}}" height="{{cardWidth*(rows+2)}}"></canvas>
+  </div>
+  <div class="billboard" 
+        [class.show]="status!==0" 
+        [style.width.px]="cardWidth*(cols+2)" 
+        [style.height.px]="cardWidth*(rows+2)+54/scaleRatio" 
+        [style.margin-left.px]="-cardWidth*(cols+2)/2"
+        [style.transform]="'scale('+scaleRatio+')'"
+        *ngIf="status!==0">
+    <div class="billboard-title" [style.margin-top.px]="cardWidth*(rows+2)/2">{{billboard}}</div>
+    <div class="billboard-btn" (click)="nextLvClick()" *ngIf="status==1">下一关</div>
+    <div class="billboard-btn" (click)="playAgainClick()" *ngIf="status==2">再玩一遍</div>
+    <div class="billboard-btn" (click)="playAgainClick()" *ngIf="status==3">从头再来</div>
+    <div class="billboard-btn" (click)="resume()" *ngIf="status==4">继续</div>
   </div>
 </div>
