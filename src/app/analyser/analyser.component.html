@@ -89,10 +89,12 @@
       </div>
       <div class="play-controls">
         <button class="play-pause" [disabled]="!playback.playAble" (click)="onMusicPlayPause()">
-          <div *ngIf="playback.isPlaying" class="pause">〓</div>
-          <div *ngIf="!playback.isPlaying">▶</div>
+          <div class="pause" *ngIf="playback.isPlaying"></div>
+          <div class="play" *ngIf="!playback.isPlaying"></div>
         </button>
-        <button class="stop" [disabled]="!playback.playAble||playback.isStopped" (click)="onMusicStop()">■</button>
+        <button class="stop" [disabled]="!playback.playAble||playback.isStopped" (click)="onMusicStop()">
+          <div></div>
+        </button>
         <button class="ghost" (click)="ghostClick()"></button>
       </div>
     </div>
